@@ -45,21 +45,43 @@
   import '~/assets/css/iconfont.css'
   import cookie from 'js-cookie'
 
+  import loginApi from "../api/login";
   export default {
     layout: 'sign',
 
     data () {
       return {
+        //用于封装手机号和密码对象
         user:{
           mobile:'',
           password:''
         },
+        //用户信息
         loginInfo:{}
       }
     },
 
     methods: {
-
+      //登录的方法
+      submitLogin() {
+        loginApi.submitLogin(this.user)
+          .then(response=>{
+            //获取token的字符串放到cookie中
+            //第一个参数 cookie值的名称
+            //第二个参数值
+            //第三个参数作用范围
+            cookie.set('guli_token',response.data.data.token,{domain:'localhost'})
+            //调用接口 根据token获取用户信息 为了首页面显示
+            loginApi.getLoginUserInfo()
+            .then(response =>{
+              this.loginInfo = response.data.data.userInfo
+              //获取返回的用户信息 放到cookie当中
+              cookie.set('guli_ucenter',this.loginInfo,{domain:'localhost'})
+              //跳转首页面
+              window.location.href = "/";
+            })
+          })
+      },
 
       checkPhone (rule, value, callback) {
         //debugger
