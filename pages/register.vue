@@ -29,7 +29,7 @@
             <i class="iconfont icon-phone"/>
           </div>
           <div class="btn" style="position:absolute;right: 0;top: 6px;width: 40%;">
-            <a href="javascript:" type="button" @click="getCodeFun()" :value="codeTest" style="border: none;background-color: none">{{codeTest}}</a>
+            <a href="javascript:" type="button" @click="getCodeFun()" :value="codeTest" style="border: none;background-color: snow">{{codeTest}}</a>
           </div>
         </el-form-item>
 
@@ -68,6 +68,7 @@
   import '~/assets/css/sign.css'
   import '~/assets/css/iconfont.css'
 
+  import registerApi from "../api/register";
 
   export default {
     layout: 'sign',
@@ -85,7 +86,39 @@
       }
     },
     methods: {
+      getCodeFun() {
+        registerApi.sendCode(this.params.mobile)
+        .then(response=>{
+          this.sending = false;
+          this.timeDown();
+        })
+      },
 
+      timeDown() {
+        let result = setInterval(() => {
+          --this.second;
+          this.codeTest = this.second
+          if (this.second < 1) {
+            clearInterval(result);
+            this.sending = true;
+            //this.disabled = false;
+            this.second = 60;
+            this.codeTest = "获取验证码"
+          }
+        }, 1000);
+
+      },
+      submitRegister() {
+            registerApi.registerMember(this.params).then(response => {
+              //提示注册成功
+              this.$message({
+                type: 'success',
+                message: "注册成功"
+              })
+              this.$router.push({path: '/login'})
+            })
+          }
+      },
 
       checkPhone (rule, value, callback) {
         //debugger
@@ -94,6 +127,6 @@
         }
         return callback()
       }
-    }
+
   }
 </script>
