@@ -5,13 +5,14 @@
       <section class="container">
         <h1 id="logo">
           <a href="#" title="小王学院">
-            <img src="~/assets/img/logo.png" width="100%" alt="小王学院">
+<!--            <img src="~/assets/img/logo.png" width="100%" alt="小王学院">-->
           </a>
         </h1>
         <div class="h-r-nsl">
           <ul class="nav">
             <router-link to="/" tag="li" active-class="current" exact>
               <a>首页</a>
+
             </router-link>
             <router-link to="/course" tag="li" active-class="current">
               <a>课程</a>
@@ -89,7 +90,7 @@
           </h4>
           <ul class="of flink-list">
             <li>
-              <a href="http://www.atguigu.com/" title="尚硅谷" target="_blank">尚硅谷</a>
+              <a href="http://www.atguigu.com/" title="王路" target="_blank">王路</a>
             </li>
           </ul>
           <div class="clear"></div>
@@ -102,11 +103,11 @@
                 <a href="#" title="联系我们" target="_blank">联系我们</a>|
                 <a href="#" title="帮助中心" target="_blank">帮助中心</a>|
                 <a href="#" title="资源下载" target="_blank">资源下载</a>|
-                <span>服务热线：010-56253825(北京) 0755-85293825(深圳)</span>
-                <span>Email：info@atguigu.com</span>
+                <span>服务热线：080-4199-8977</span>
+                <span>Email：wz190816@yahoo.co.jp</span>
               </section>
               <section class="b-f-link mt10">
-                <span>©2018课程版权均归谷粒学院所有 京ICP备17055252号</span>
+                <span>©2020课程版权均归小王学院所有</span>
               </section>
             </section>
           </section>
@@ -135,6 +136,7 @@
   import "~/assets/css/global.css";
   import "~/assets/css/web.css";
   import cookie from  'js-cookie'
+  import login from "../api/login";
   export default {
     data(){
       return{
@@ -150,9 +152,28 @@
       }
     },
     created() {
-      this.showInfo()
+      //获取路径里面的token
+      this.token = this.$route.query.token
+      if (this.token) {
+        this.wxLogin()
+      }
+      this.showInfo();
     },
     methods:{
+      //微信登录显示的方法
+      wxLogin() {
+        //把token值防盗啊cookie中
+        cookie.set('guli_token',this.token,{domain:'localhost'})
+        cookie.set('guli_ucenter','',{domain:'localhost'})
+        //调用接口 根据token值获取用户信息
+        login.getLoginUserInfo()
+        .then(response =>{
+          this.loginInfo = response.data.data.userInfo
+          console.log(this.loginInfo);
+          cookie.set('guli_ucenter',this.loginInfo,{domain:'localhost'})
+
+        })
+      },
       //退出方法
       logout() {
         //清空cookie值

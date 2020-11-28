@@ -2,12 +2,11 @@ import request from '@/utils/request'
 
 export default {
 
-  //登录的方法
-  submitLogin(userInfo) {
+  //分页讲师查询
+  getTeacherList(page,limit) {
     return request({
-      url: `/educenter/member/login`,
+      url: `/eduservice/teacherfront/getTeacherFrontList/${page}/${limit}`,
       method: 'post',
-      data: userInfo
     })
   },
 
