@@ -10,10 +10,10 @@ export default {
     })
   },
 
-    //根据token值获取用户信息
-    getLoginUserInfo() {
+    //讲师详情的方法
+    getTeacherInfo(id) {
       return request({
-        url: `/educenter/member/getMemberInfo`,
+        url: `/eduservice/teacherfront/getTeacherFrontInfo/${id}`,
         method: 'get'
       })
     }
