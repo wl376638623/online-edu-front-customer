@@ -314,5 +314,27 @@
   </div>
 </template>
 <script>
-  export default {};
+  import courseApi from "../../api/course";
+  export default {
+    data() {
+      return {
+        page:1,
+        data:{},
+        subjectNestedList: [], // 一级分类列表
+        subSubjectList: [], // 二级分类列表
+        searchObj: {}, // 查询表单对象
+        oneIndex:-1,
+        twoIndex:-1,
+        buyCountSort:"",
+        gmtCreateSort:"",
+        priceSort:""
+      }
+    },
+    created() {
+
+    },
+    methods:{
+
+    }
+  };
 </script>
