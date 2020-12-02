@@ -15,8 +15,8 @@
             </dt>
             <dd class="c-s-dl-li">
               <ul class="clearfix">
-                <li>
-                  <a title="全部" href="#">全部</a>
+                <li :class="{active:oneIndex==-2}">
+                  <a title="全部" href="#" @click="searchOne(null,-2)">全部</a>
                 </li>
                 <li v-for="(item,index) in subjectNestedList" :key="index" :class="{active:oneIndex==index}">
                   <a :title="item.title" href="#" @click="searchOne(item.id,index)">{{item.title}}</a>
@@ -194,27 +194,34 @@
 
       //4 点击某个一级分类，查询对应二级分类
       searchOne(subjectParentId,index) {
-        //把传递index值赋值给oneIndex,为了active样式生效
-        this.oneIndex = index
+        if(subjectParentId === null) {
+          this.oneIndex = index
+          this.searchObj.subjectParentId = ''
+          this.searchObj.subjectId = ''
+          this.subSubjectList = []
+          this.buyCountSort = ''
+          this.gmtCreateSort = ''
+          this.priceSort = ''
+          this.gotoPage(1)
+        }else{
+          //把传递index值给oneIndex让样式显示
+          this.oneIndex = index
+          this.searchObj = {}
+          this.subSubjectList = []
+          this.twoIndex = -1
 
-        this.twoIndex = -1
-        this.searchObj.subjectId = ""
-        this.subSubjectList = []
-
-        //把一级分类点击id值，赋值给searchObj
-        this.searchObj.subjectParentId = subjectParentId
-        //点击某个一级分类进行条件查询
-        this.gotoPage(1)
-
-        //拿着点击一级分类id 和 所有一级分类id进行比较，
-        //如果id相同，从一级分类里面获取对应的二级分类
-        for(let i=0;i<this.subjectNestedList.length;i++) {
-          //获取每个一级分类
-          var oneSubject = this.subjectNestedList[i]
-          //比较id是否相同
-          if(subjectParentId == oneSubject.id) {
-            //从一级分类里面获取对应的二级分类
-            this.subSubjectList = oneSubject.children
+          //点击某个一级分类进行条件查询
+          this.searchObj.subjectParentId = subjectParentId
+          this.gotoPage(1)
+          //用传过来的id和所有一级id比较,如果相同显示二级分类
+          for(let i = 0 ; i < this.subjectNestedList.length; i++ ) {
+            //获取每一个一级分类
+            let oneSubject = this.subjectNestedList[i]
+            //比较
+            if(subjectParentId == oneSubject.id) {
+              //根据一级分类id查询二级分类
+              this.subSubjectList = oneSubject.children
+            }
           }
         }
       },
