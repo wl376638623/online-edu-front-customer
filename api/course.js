@@ -12,7 +12,7 @@ export default {
   },
 
     //查询所有分类发方法
-    getTeacherInfo() {
+    getAllSubject() {
       return request({
         url: '/eduservice/subject/getAllSubject/',
         method: 'get'
