@@ -194,7 +194,12 @@
 
       //4 点击某个一级分类，查询对应二级分类
       searchOne(subjectParentId,index) {
+        //把传递index值赋值给oneIndex,为了active样式生效
+        this.oneIndex = index
 
+        this.twoIndex = -1
+        this.searchObj.subjectId = ""
+        this.subSubjectList = []
 
         //把一级分类点击id值，赋值给searchObj
         this.searchObj.subjectParentId = subjectParentId
@@ -213,6 +218,65 @@
           }
         }
       },
+
+      //5 点击某个二级分类实现查询
+      searchTwo(subjectId,index) {
+        //把index赋值,为了样式生效
+        this.twoIndex = index
+        //把二级分类点击id值，赋值给searchObj
+        this.searchObj.subjectId = subjectId
+        //点击某个二级分类进行条件查询
+        this.gotoPage(1)
+      },
+
+      //6 根据销量排序
+      searchBuyCount() {
+        //设置对应变量值，为了样式生效
+        this.buyCountSort = "1"
+        this.gmtCreateSort = ""
+        this.priceSort = ""
+
+        //把值赋值到searchObj
+        this.searchObj.buyCountSort = this.buyCountSort
+        this.searchObj.gmtCreateSort = this.gmtCreateSort;
+        this.searchObj.priceSort = this.priceSort;
+
+        //调用方法查询
+        this.gotoPage(1)
+      },
+
+      //7 最新排序
+      searchGmtCreate() {
+        //设置对应变量值，为了样式生效
+        this.buyCountSort = ""
+        this.gmtCreateSort = "1"
+        this.priceSort = ""
+
+        //把值赋值到searchObj
+        this.searchObj.buyCountSort = this.buyCountSort
+        this.searchObj.gmtCreateSort = this.gmtCreateSort;
+        this.searchObj.priceSort = this.priceSort;
+
+        //调用方法查询
+        this.gotoPage(1)
+      },
+
+      //8 价格排序
+      searchPrice() {
+        //设置对应变量值，为了样式生效
+        this.buyCountSort = ""
+        this.gmtCreateSort = ""
+        this.priceSort = "1"
+
+        //把值赋值到searchObj
+        this.searchObj.buyCountSort = this.buyCountSort
+        this.searchObj.gmtCreateSort = this.gmtCreateSort;
+        this.searchObj.priceSort = this.priceSort;
+
+        //调用方法查询
+        this.gotoPage(1)
+      }
+
     }
   };
 </script>
