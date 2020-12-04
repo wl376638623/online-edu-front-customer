@@ -34,7 +34,7 @@
               </span>
             </section>
             <section class="c-attr-mt">
-              <a href="#" title="立即观看" class="comm-btn c-btn-3">立即观看</a>
+              <a href="#" title="立即观看" class="comm-btn c-btn-3" @click="createOrders()">立即购买</a>
             </section>
           </section>
         </aside>
@@ -162,6 +162,7 @@
 
 <script>
   import courseApi from '@/api/course'
+  import orders from "../../api/orders";
   export default {
     asyncData({ params, error }) {
       return courseApi.getCourseInfo(params.id)
@@ -171,6 +172,24 @@
             chapterVideoList: response.data.data.chapterVideoList
           }
         })
+    },
+    methods: {
+      //生成订单
+      createOrders() {
+        orders.createOrders(this.courseId)
+        .then(response=>{
+          //返回的订单号
+          response.data.data.orderId
+        })
+
+      }
     }
   };
 </script>
+
+<style scoped>
+  .p-h-video-box img {
+    height: 357px;
+    width: 650px;
+  }
+</style>
