@@ -179,7 +179,9 @@
         orders.createOrders(this.courseId)
         .then(response=>{
           //返回的订单号
-          response.data.data.orderId
+
+          ///生成订单后跳转订单显示页面
+          this.$router.push({path:'/orders/'+response.data.data.orderId})
         })
 
       }
