@@ -13,5 +13,19 @@ export default {
       url: '/eduorder/order/getOrderInfo/' + id,
       method: 'get'
     })
-  }
+  },
+  //生成二维码的方法
+  createActive(orderNo) {
+    return request({
+      url: '/eduorder/paylog"/createActive/' + orderNo,
+      method: 'get'
+    })
+  },
+  //查询订单状态的方法
+  queryPayStatus(orderNo) {
+    return request({
+      url: '/eduorder/paylog"/queryPayStatus/' + orderNo,
+      method: 'get'
+    })
+  },
 }
