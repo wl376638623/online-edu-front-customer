@@ -68,21 +68,22 @@
     </form>
   </div>
 </template>
-
 <script>
-  import ordersApi from "../../api/orders";
-    export default {
-      asyncData({params, error}) {
-       return  ordersApi.getOrdersInfo(params.oid)
-        .then(response=>{
+  import ordersApi from '@/api/orders'
+  export default {
+    asyncData({ params, error }) {
+      return ordersApi.getOrdersInfo(params.oid)
+        .then(response => {
           return {
-            order:response.data.data.item
+            order: response.data.data.item
           }
         })
+    },
+    methods:{
+      //去支付
+      toPay() {
+        this.$router.push({path:'/pay/'+this.order.orderNo})
       }
     }
+  }
 </script>
-
-<style scoped>
-
-</style>
