@@ -162,7 +162,7 @@
 
 <script>
   import courseApi from '@/api/course'
-  import orders from "../../api/orders";
+  import orders from "@/api/orders";
   export default {
     asyncData({ params, error }) {
       return courseApi.getCourseInfo(params.id)

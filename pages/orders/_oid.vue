@@ -77,6 +77,7 @@
           return {
             order: response.data.data.item
           }
+          console.log(this.order);
         })
     },
     methods:{

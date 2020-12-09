@@ -31,21 +31,45 @@
     </div>
   </div>
 </template>
-
 <script>
-  import ordersApi from "../../api/orders";
-    export default {
-      asyncData({params, error}) {
-        return ordersApi.createActive(params.pid)
-        .then(response=>{
+  import ordersApi from '@/api/orders'
+  export default {
+    asyncData({ params, error }) {
+      return ordersApi.createNatvie(params.pid)
+        .then(response => {
           return {
-            payObj : response.data.data
+            payObj: response.data.data
           }
         })
+    },
+    data() {
+      return {
+        timer1:''
+      }
+    },
+    //每隔三秒调用一次查询订单状态的方法
+    mounted() {//页面渲染之后执行
+      this.timer1 = setInterval(() => {
+        this.queryOrderStatus(this.payObj.out_trade_no)
+      },3000);
+    },
+    methods:{
+      queryOrderStatus(orderNo) {
+        ordersApi.queryPayStatus(orderNo)
+          .then(response => {
+            if (response.data.success) {
+              //支付成功，清除定时器
+              clearInterval(this.timer1)
+              //提示
+              this.$message({
+                type: 'success',
+                message: '支付成功!'
+              })
+              //跳转回到课程详情页面
+              this.$router.push({path: '/course/' + this.payObj.course_id})
+            }
+          })
       }
     }
+  }
 </script>
-
-<style scoped>
-
-</style>
